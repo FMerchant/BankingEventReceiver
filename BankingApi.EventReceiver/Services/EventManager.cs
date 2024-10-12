@@ -18,7 +18,8 @@ namespace BankingApi.EventReceiver.Services
 
         public async Task<EventMessage?> Peek(CancellationToken cancellationToken)
         {
-            var receivedMessage = await _serviceBusReceiver.ReceiveMessageAsync(cancellationToken: cancellationToken);
+            //The service bus reciver is configured to wait 10 secs for a message before returning a null
+            var receivedMessage = await _serviceBusReceiver.ReceiveMessageAsync(TimeSpan.FromSeconds(10), cancellationToken);
 
             if (receivedMessage != null)
             {

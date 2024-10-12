@@ -14,42 +14,28 @@ namespace BankingApi.EventReceiver.Services
 
         public async Task CreditToAccount(Guid id, decimal amount, CancellationToken cancellationToken)
         {
-            try
-            {
-                var account = await _bankAccountRepository.GetAccount(id);
+            var account = await _bankAccountRepository.GetAccount(id);
 
-                if (account == null)
-                {
-                    return;
-                }
-
-                account.Credit(amount);
-                await _bankAccountRepository.UpdateAccount(account, cancellationToken);
-            }
-            catch (Exception ex)
+            if (account == null)
             {
                 return;
             }
+
+            account.Credit(amount);
+            await _bankAccountRepository.UpdateAccount(account, cancellationToken);
         }
 
         public async Task DebitFromAccount(Guid id, decimal amount, CancellationToken cancellationToken)
         {
-            try
-            {
-                var account = await _bankAccountRepository.GetAccount(id);
+            var account = await _bankAccountRepository.GetAccount(id);
 
-                if (account == null)
-                {
-                    return;
-                }
-
-                account.Debit(amount);
-                await _bankAccountRepository.UpdateAccount(account, cancellationToken);
-            }
-            catch (Exception ex)
+            if (account == null)
             {
                 return;
             }
+
+            account.Debit(amount);
+            await _bankAccountRepository.UpdateAccount(account, cancellationToken);
         }
     }
 }
