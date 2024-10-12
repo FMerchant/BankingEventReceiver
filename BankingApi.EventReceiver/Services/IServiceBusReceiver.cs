@@ -6,10 +6,9 @@ namespace BankingApi.EventReceiver.Services
     {
         Task<EventMessage?> Peek(CancellationToken cancellationToken);
 
-        Task Abandon(EventMessage message);
+        Task Abandon(CancellationToken cancellationToken);
         
-        Task Complete(EventMessage message);
-        Task ReSchedule(EventMessage message, DateTime nextAvailableTime);
-        Task MoveToDeadLetter(EventMessage message);
+        Task Complete(CancellationToken cancellationToken);
+        Task MoveToDeadLetter(CancellationToken cancellationToken);
     }
 }

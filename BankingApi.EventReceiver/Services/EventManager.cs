@@ -9,6 +9,7 @@ namespace BankingApi.EventReceiver.Services
         private readonly ServiceBusClient _serviceBusClient;
         private readonly ServiceBusReceiver _serviceBusReceiver;
         private readonly string _queueName;
+        private ServiceBusReceivedMessage _currentMessage;
         public EventManager()
         {
             _queueName = "";
@@ -23,6 +24,7 @@ namespace BankingApi.EventReceiver.Services
 
             if (receivedMessage != null)
             {
+                _currentMessage = receivedMessage;
                 var jsonMessage = receivedMessage.Body.ToString();
                 var message = JsonSerializer.Deserialize<EventMessage>(jsonMessage);
                 return message;
@@ -31,25 +33,22 @@ namespace BankingApi.EventReceiver.Services
             return null;
         }
 
-        public Task Abandon(EventMessage message)
+        public async Task Abandon(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await _serviceBusReceiver.AbandonMessageAsync(_currentMessage, cancellationToken: cancellationToken);
+            _currentMessage = null;
         }
 
-        public Task Complete(EventMessage message)
+        public async Task Complete(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await _serviceBusReceiver.CompleteMessageAsync(_currentMessage, cancellationToken);
+            _currentMessage = null;
         }
 
-        public Task MoveToDeadLetter(EventMessage message)
+        public async Task MoveToDeadLetter(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
-        }
-
-
-        public Task ReSchedule(EventMessage message, DateTime nextAvailableTime)
-        {
-            throw new NotImplementedException();
+            await _serviceBusReceiver.DeadLetterMessageAsync(_currentMessage, cancellationToken: cancellationToken);
+            _currentMessage = null;
         }
     }
 }
