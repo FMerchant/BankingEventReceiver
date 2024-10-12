@@ -11,9 +11,9 @@ namespace BankingApi.EventReceiver.Repositories
             _context = context;
         }
 
-        public async Task<BankAccount?> Get(Guid id) => await _context.FindAsync<BankAccount>(id);
+        public async Task<BankAccount?> GetAccount(Guid id) => await _context.FindAsync<BankAccount>(id);
 
-        public async Task Update(BankAccount account, CancellationToken cancellationToken)
+        public async Task UpdateAccount(BankAccount account, CancellationToken cancellationToken)
         {
             _context.Update(account);
             await _context.SaveChangesAsync(cancellationToken);

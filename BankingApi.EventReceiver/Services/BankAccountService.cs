@@ -5,18 +5,18 @@ namespace BankingApi.EventReceiver.Services
 {
     public class BankAccountService : IBankAccountService
     {
-        private readonly IBankAccountRepository _bankAccount;
+        private readonly IBankAccountRepository _bankAccountRepository;
 
-        public BankAccountService(IBankAccountRepository bankAccount)
+        public BankAccountService(IBankAccountRepository bankAccountRepository)
         {
-            _bankAccount = bankAccount;
+            _bankAccountRepository = bankAccountRepository;
         }
 
         public async Task CreditToAccount(Guid id, decimal amount, CancellationToken cancellationToken)
         {
             try
             {
-                var account = await _bankAccount.Get(id);
+                var account = await _bankAccountRepository.GetAccount(id);
 
                 if (account == null)
                 {
@@ -24,7 +24,7 @@ namespace BankingApi.EventReceiver.Services
                 }
 
                 account.Credit(amount);
-                await _bankAccount.Update(account, cancellationToken);
+                await _bankAccountRepository.UpdateAccount(account, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -36,7 +36,7 @@ namespace BankingApi.EventReceiver.Services
         {
             try
             {
-                var account = await _bankAccount.Get(id);
+                var account = await _bankAccountRepository.GetAccount(id);
 
                 if (account == null)
                 {
@@ -44,7 +44,7 @@ namespace BankingApi.EventReceiver.Services
                 }
 
                 account.Debit(amount);
-                await _bankAccount.Update(account, cancellationToken);
+                await _bankAccountRepository.UpdateAccount(account, cancellationToken);
             }
             catch (Exception ex)
             {

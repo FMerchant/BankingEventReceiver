@@ -4,8 +4,8 @@ namespace BankingApi.EventReceiver.Repositories
 {
     public interface IBankAccountRepository
     {
-        Task<BankAccount?> Get(Guid id);
+        Task<BankAccount?> GetAccount(Guid id);
 
-        Task Update(BankAccount account, CancellationToken cancellationToken);
+        Task UpdateAccount(BankAccount account, CancellationToken cancellationToken);
     }
 }
