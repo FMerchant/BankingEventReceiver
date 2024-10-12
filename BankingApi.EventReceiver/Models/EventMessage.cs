@@ -1,4 +1,4 @@
-﻿namespace BankingApi.EventReceiver;
+﻿namespace BankingApi.EventReceiver.Model;
 
 public class EventMessage
 {
