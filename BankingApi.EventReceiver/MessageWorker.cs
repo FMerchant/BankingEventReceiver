@@ -1,15 +1,18 @@
-﻿namespace BankingApi.EventReceiver
+﻿using BankingApi.EventReceiver.Services;
+
+namespace BankingApi.EventReceiver
 {
     public class MessageWorker
     {
+        private readonly IServiceBusReceiver _serviceBusReceiver;
         public MessageWorker(IServiceBusReceiver serviceBusReceiver)
         {
+            _serviceBusReceiver = serviceBusReceiver;
         }
 
-        public Task Start()
+        public async Task Start()
         {
-            // Implement logic to listen to messages here
-            return Task.CompletedTask;
+            
         }
     }
 }
