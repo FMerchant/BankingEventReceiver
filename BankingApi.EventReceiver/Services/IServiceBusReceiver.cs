@@ -4,7 +4,7 @@ namespace BankingApi.EventReceiver.Services
 {
     public interface IServiceBusReceiver
     {
-        Task<EventMessage?> Peek();
+        Task<EventMessage?> Peek(CancellationToken cancellationToken);
 
         Task Abandon(EventMessage message);
         
